@@ -107,7 +107,7 @@ def controllo():
     risultati.append(testEqual(x.prenota(103, d1, Data(2,1), "Sempronio", 3),4))
     risultati.append(testEqual(x.get_prenotazioni(), [p1, p2, p4]))
     risultati.append(testEqual(x.prenota(103, Data(1,3),Data(1,4), "Sempronio", 1), 5))
-    risultati.append(testEqual(x.get_prenotazione_per_indice(4), p4))
+    risultati.append(testEqual(x.get_prenotazione(4),p4))
     risultati.append(testEqual(x.get_prenotazioni_data(Data(10,1)), [p1, p2]))
     risultati.append(testEqual(x.get_prenotazioni_cliente("Sempronio"), [p4, Prenotazione(5, 103, Data(1,3),Data(1,4), "Sempronio", 1)]))
     risultati.append(testEqual(x.get_prenotazioni_tipo_stanza("Singola"), [p1]))

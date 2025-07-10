@@ -57,6 +57,8 @@ class Hotel:
         gestione_errori_data(data_partenza, Data)
         gestione_errori_data(nome_cliente, str)
         gestione_errori_data(numero_persone, int, 0)
+        # Deve esserci almeno una persona nella prenotazione
+        gestione_errori_data(numero_persone, int, 1)
         
         if numero_stanza not in self.stanze:
             raise KeyError(f"La stanza {numero_stanza} non esiste")
@@ -159,6 +161,13 @@ class Hotel:
         gestione_errori_data(indice, int)
         self.controllo_indice( indice)
         return self.prenotazioni[indice]
+
+    def get_prenotazione(self, indice):
+        """
+        Alias per compatibilità con i test: restituisce la prenotazione con l'indice specificato.
+        Internamente delega a get_prenotazione_per_indice.
+        """
+        return self.get_prenotazione_per_indice(indice)
 
     """
     Restituisce la lista delle prenotazioni presenti nell'hotel in una data specifica.

@@ -27,14 +27,16 @@ class Stanza:
         return self.numero_stanza
     
     def set_numero_stanza(self, numero_stanza):
-        gestione_errori_data(numero_stanza, int, 0)
+        # Il numero della stanza deve essere un intero positivo (>0)
+        gestione_errori_data(numero_stanza, int, 1)
         self.numero_stanza = numero_stanza
 
     def get_posti(self):
         return self.posti
     
     def set_posti(self, posti):
-        gestione_errori_data(posti, int, 0)
+        # I posti devono essere un intero positivo (>0)
+        gestione_errori_data(posti, int, 1)
         self.posti = posti
 
     def get_prezzo_base(self):
@@ -157,6 +159,6 @@ class Doppia(Stanza):
             return False
         return super().__eq__(other)
     
-def get_tipo_stanza(self):
+    def get_tipo_stanza(self):
         return type(self).__name__
 

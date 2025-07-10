@@ -42,10 +42,12 @@ class Data:
                 raise ValueError("Impossibile impostare il giorno: il mese non è ancora stato definito.")
             # Recupero il numero massimo di giorni nel mese
             giorni_max = self.mappa_mesi.get(self._mese)
-            gestione_errori_data(valore, int, 0, giorni_max + 1)
+            # Il giorno deve essere nell'intervallo 1..giorni_max (estremi inclusi)
+            gestione_errori_data(valore, int, 1, giorni_max)
             self._giorno = valore
         except ValueError as e:
-            raise TypeError(f"Errore nella creazione del giorno della Data con errore: {e}") from e
+            # Propaghiamo come ValueError per mantenere coerenza con le specifiche
+            raise ValueError(str(e)) from e
 
     @property
     def mese(self):
@@ -54,10 +56,11 @@ class Data:
     @mese.setter
     def mese(self, valore):
         try:
-            gestione_errori_data(valore, int, 0, 13)
+            # Il mese deve essere nell'intervallo 1..12 (estremi inclusi)
+            gestione_errori_data(valore, int, 1, 12)
             self._mese = valore
         except ValueError as e:
-            raise TypeError(f"Errore nella creazione del mese della Data con errore: {e}") from e
+            raise ValueError(str(e)) from e
 
     # metodo per il calcolo della differenza in giorni tra due date
     def __sub__(self, other):
@@ -176,7 +179,8 @@ class Prenotazione:
     @numero_stanza.setter
     def numero_stanza(self, value):
         try:
-            gestione_errori_data(value, int, 0)
+            # Il numero di stanza deve essere positivo (>0)
+            gestione_errori_data(value, int, 1)
             self._numero_stanza = value
         except TypeError as e:
             raise TypeError(f"errore con la creazione della stanza con errore: {e}") from e
@@ -209,7 +213,7 @@ class Prenotazione:
                 raise ValueError("La data di partenza non può essere precedente alla data di arrivo.")
             self._data_partenza = value
         except ValueError as e:
-            raise TypeError(f"Errore nella creazione della data di partenza della prenotazione con errore: {e}") from e
+            raise ValueError(str(e)) from e
 
     @property
     def nome_cliente(self):
@@ -234,7 +238,8 @@ class Prenotazione:
     @numero_persone.setter
     def numero_persone(self, value):
         try:
-            gestione_errori_data(value, int, 0)
+            # Il numero di persone deve essere positivo (>0)
+            gestione_errori_data(value, int, 1)
             self._numero_persone = value
         except ValueError as e:
             raise TypeError(f"Errore con il numero della prenotazione con errore: {e}") from e

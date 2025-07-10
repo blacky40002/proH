@@ -25,7 +25,8 @@ class Data:
                   12: 31}  # 2025 anno di riferimento non bisestile
 
     def __init__(self, giorno: int, mese: int, anno=2025):
-        _mese = None
+        self._mese = None
+        self._giorno = None
         self.mese = mese
         self.giorno = giorno
 
@@ -42,10 +43,13 @@ class Data:
                 raise ValueError("Impossibile impostare il giorno: il mese non è ancora stato definito.")
             # Recupero il numero massimo di giorni nel mese
             giorni_max = self.mappa_mesi.get(self._mese)
-            gestione_errori_data(valore, int, 0, giorni_max + 1)
+            if not isinstance(valore, int):
+                raise TypeError("Il giorno deve essere un numero intero")
+            if valore < 1 or valore > giorni_max:
+                raise ValueError(f"Il giorno deve essere compreso tra 1 e {giorni_max} per il mese {self._mese}")
             self._giorno = valore
-        except ValueError as e:
-            raise TypeError(f"Errore nella creazione del giorno della Data con errore: {e}") from e
+        except (ValueError, TypeError) as e:
+            raise ValueError(f"Errore nella creazione del giorno della Data: {e}") from e
 
     @property
     def mese(self):
@@ -54,10 +58,13 @@ class Data:
     @mese.setter
     def mese(self, valore):
         try:
-            gestione_errori_data(valore, int, 0, 13)
+            if not isinstance(valore, int):
+                raise TypeError("Il mese deve essere un numero intero")
+            if valore < 1 or valore > 12:
+                raise ValueError("Il mese deve essere compreso tra 1 e 12")
             self._mese = valore
-        except ValueError as e:
-            raise TypeError(f"Errore nella creazione del mese della Data con errore: {e}") from e
+        except (ValueError, TypeError) as e:
+            raise ValueError(f"Errore nella creazione del mese della Data: {e}") from e
 
     # metodo per il calcolo della differenza in giorni tra due date
     def __sub__(self, other):

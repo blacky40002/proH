@@ -157,6 +157,6 @@ class Doppia(Stanza):
             return False
         return super().__eq__(other)
     
-def get_tipo_stanza(self):
+    def get_tipo_stanza(self):
         return type(self).__name__
 
